@@ -1,13 +1,13 @@
 ext {
     android = [
             compileSdk           : 33,
-            namespace            : "com.mozhimen.app",
-            applicationId        : "com.mozhimen.app",
-            minSdk               : 21,
+            namespace            : "com.lc.smartmnist",
+            applicationId        : "com.lc.smartmnist",
+            minSdk               : 24,
             targetSdk            : 33,
-            versionCode          : 3,
+            versionCode          : 1,
             renderscriptTargetApi: 18,
-            versionName          : "0.0.3",
+            versionName          : "0.0.1",
             multiDexEnabled      : true
     ]
 }
