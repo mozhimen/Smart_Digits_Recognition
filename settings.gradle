@@ -17,3 +17,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "Smart_Digits_Recognition"
 include ':app'
+include ':SwiftKit'
+project(':SwiftKit').projectDir = new File("C:\\Users\\83524\\Documents\\GitHub\\SwiftKit")
+include ':SwiftKit:basick'
+include ':SwiftKit:uicorek'
+include ':SwiftKit:underlayk'
+include ':SwiftKit:componentk'

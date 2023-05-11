@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.MaterialToolbar
@@ -18,6 +17,7 @@ import com.google.android.material.navigation.NavigationBarView
 import com.lc.smartmnist.commons.UtilsFunctions
 import com.lc.smartmnist.databinding.ActivityMainBinding
 import com.mozhimen.basick.elemk.activity.bases.BaseActivityVB
+import com.mozhimen.basick.elemk.activity.bases.BaseActivityVBVM
 import com.mozhimen.basick.manifestk.cons.CPermission
 import com.mozhimen.basick.manifestk.permission.ManifestKPermission
 import com.mozhimen.basick.manifestk.permission.annors.APermissionCheck
@@ -30,21 +30,23 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-@APermissionCheck(CPermission.CAMERA)
-open class MainActivity : BaseActivityVB<ActivityMainBinding>(), UtilsFunctions {
+@APermissionCheck(CPermission.CAMERA, CPermission.WRITE_EXTERNAL_STORAGE, CPermission.READ_EXTERNAL_STORAGE)
+open class MainActivity : BaseActivityVBVM<ActivityMainBinding, SharedViewModel>(), UtilsFunctions {
     private val items = arrayOf("Light", "Dark", "Auto (Based on System)")
     private var module: Module? = null
     private var dialog: AlertDialog? = null
     private lateinit var recognitionFragment: RecognitionFragment
     private lateinit var drawFragment: DrawFragment
     private lateinit var ocrFragment: OcrFragment
-    private lateinit var sharedViewModel: SharedViewModel
+    override fun bindViewVM(vb: ActivityMainBinding) {
+
+    }
 
     override fun initData(savedInstanceState: Bundle?) {
-        ManifestKPermission.initPermissions(this){
-            if (it){
+        ManifestKPermission.initPermissions(this) {
+            if (it) {
                 super.initData(savedInstanceState)
-            }else{
+            } else {
                 UtilKLaunchActivity.startSettingAppDetails(this)
             }
         }
@@ -67,13 +69,13 @@ open class MainActivity : BaseActivityVB<ActivityMainBinding>(), UtilsFunctions 
         window.navigationBarColor = SurfaceColors.SURFACE_2.getColor(this)
 
         // Retrieving or creating a ViewModel to allow data to survive configuration changes
-        sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-        module = sharedViewModel.getModule()
+        vm = ViewModelProvider(this)[SharedViewModel::class.java]
+        module = vm.getModule()
         if (module == null) {
             try {
                 // Loading serialized TorchScript module from file packaged into app Android asset (app/src/model/assets/modelMNIST_ts_lite.ptl)
                 module = LiteModuleLoader.load(assetFilePath(this, "modelMNIST_ts_lite.ptl"))
-                sharedViewModel.setModule(module)
+                vm.setModule(module)
             } catch (e: IOException) {
                 Log.e("IOException", "Error reading assets (module)", e)
                 finish()
@@ -82,7 +84,7 @@ open class MainActivity : BaseActivityVB<ActivityMainBinding>(), UtilsFunctions 
 
         // Creating the settings AlertDialog and re-displaying it when the theme is changed
         dialog = createSettingsDialog()
-        if (sharedViewModel.getDialogState()) {
+        if (vm.getDialogState()) {
             dialog!!.show()
         }
 
@@ -142,6 +144,7 @@ open class MainActivity : BaseActivityVB<ActivityMainBinding>(), UtilsFunctions 
             false
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Applying the chosen theme when (re)starting the app
         val sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
@@ -163,7 +166,7 @@ open class MainActivity : BaseActivityVB<ActivityMainBinding>(), UtilsFunctions 
         super.onDestroy()
 
         // Saving the dialog state before the Activity is killed
-        sharedViewModel.setDialogState(dialog!!.isShowing)
+        vm.setDialogState(dialog!!.isShowing)
         dialog!!.dismiss()
     }
 

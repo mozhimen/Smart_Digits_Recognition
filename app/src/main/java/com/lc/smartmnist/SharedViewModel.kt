@@ -3,6 +3,7 @@ package com.lc.smartmnist
 import android.graphics.Path
 import android.graphics.drawable.Drawable
 import androidx.lifecycle.ViewModel
+import com.mozhimen.basick.elemk.viewmodel.bases.BaseViewModel
 import org.pytorch.Module
 
 /**
@@ -12,7 +13,7 @@ import org.pytorch.Module
  * @Date 2023/5/10 23:47
  * @Version 1.0
  */
-class SharedViewModel : ViewModel() {
+class SharedViewModel : BaseViewModel() {
     // App
     private var module: Module? = null
     private var dialogState = false
