@@ -30,6 +30,7 @@
             android:maxWidth="240dp"
             android:maxLines="3"
             android:textSize="15sp"
+            android:textIsSelectable="true"
             android:textColor="@color/ui_gray_000"
             app:layout_constraintBottom_toTopOf="@id/camera_capture_button"
             app:layout_constraintEnd_toEndOf="parent"

@@ -30,7 +30,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-@APermissionCheck(CPermission.CAMERA, CPermission.WRITE_EXTERNAL_STORAGE, CPermission.READ_EXTERNAL_STORAGE)
+@APermissionCheck(CPermission.CAMERA)
 open class MainActivity : BaseActivityVBVM<ActivityMainBinding, SharedViewModel>(), UtilsFunctions {
     private val items = arrayOf("Light", "Dark", "Auto (Based on System)")
     private var module: Module? = null

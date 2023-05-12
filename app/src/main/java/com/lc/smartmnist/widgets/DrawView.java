@@ -76,7 +76,7 @@ public class DrawView extends View {
         drawPaint = new Paint();
         drawPaint.setColor(Color.WHITE);
         drawPaint.setAntiAlias(true);
-        drawPaint.setStrokeWidth(60);
+        drawPaint.setStrokeWidth(30);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
